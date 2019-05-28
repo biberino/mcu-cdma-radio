@@ -1,0 +1,31 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "BUILD sender feather",
+            "type": "shell",
+            "command": "newt build sender_feather_tgt"
+        },
+        {
+            "label": "IMAGE sender feather",
+            "type": "shell",
+            "command": "newt create-image sender_feather_tgt 0.0.1",
+            "dependsOn": "BUILD sender feather"
+        },
+        {
+            "label": "LOAD sender feather",
+            "type": "shell",
+            "command": "newt load sender_feather_tgt",
+            "dependsOn": "IMAGE sender feather",
+            "problemMatcher": []
+        },
+        {
+            "label": "INTERNAL start dbg detached sender feather",
+            "type": "shell",
+            "command": "gnome-terminal -e 'newt debug sender_feather_tgt -n'",
+            "dependsOn": "LOAD sender feather"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "os.h": "c",
+        "bsp.h": "c",
+        "mcu_sim.h": "c",
+        "sysinit.h": "c",
+        "syscfg.h": "c",
+        "console.h": "c"
+    }
+}

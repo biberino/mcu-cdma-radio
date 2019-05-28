@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "${workspaceRoot}/bin/targets/sender_feather_tgt/app/apps/sender/sender.elf",
+            "name": "DEBUG sender feather cortex extension",
+            "request": "attach",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "device": "nRF52832_xxAA",
+            "preLaunchTask": "LOAD sender feather"
+
+        },
+        
+        {
+            "name": "DEBUG sender feather native extension",
+            "type": "gdb",
+            "request": "attach",
+            "executable": "${workspaceRoot}/bin/targets/sender_feather_tgt/app/apps/sender/sender.elf",
+            "target": ":3333",
+            "cwd": "${workspaceRoot}",
+            "gdbpath": "arm-none-eabi-gdb",
+            "remote": true,
+            "preLaunchTask": "INTERNAL start dbg detached sender feather"
+        }
+
+    ]
+}
