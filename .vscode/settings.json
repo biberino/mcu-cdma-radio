@@ -5,6 +5,7 @@
         "mcu_sim.h": "c",
         "sysinit.h": "c",
         "syscfg.h": "c",
-        "console.h": "c"
+        "console.h": "c",
+        "m_seq.h": "c"
     }
 }
