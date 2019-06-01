@@ -29,6 +29,7 @@
 #include "mcu/mcu_sim.h"
 #endif
 
+#include "global/params.h"
 #include "task_sender.h"
 #include "init_tasks.h"
 
@@ -37,10 +38,6 @@ static volatile int g_task1_loops;
 /* For LED toggling */
 int g_led_pin;
 int g_led_blue;
-
-void dummy()
-{
-}
 
 /**
  * main task
@@ -56,23 +53,29 @@ int main(int argc, char **argv)
 
     sysinit();
 
+    os_cputime_init(SENDER_FREQ_KHZ * 10000);
+
     g_led_pin = LED_BLINK_PIN;
     g_led_blue = 19;
     hal_gpio_init_out(g_led_pin, 1);
-    hal_gpio_init_out(g_led_blue, 1);
+    hal_gpio_init_out(g_led_blue, 0);
 
     init_tasks();
 
-    uint8_t test_buffer[10];
+    int buffer_size = 8;
+
+    uint8_t test_buffer[buffer_size];
     //console_init(dummy);
 
     struct sender_data data;
     data.buffer = test_buffer;
-    data.size = 10;
+    data.size = buffer_size;
     data.gpio = g_led_blue;
     struct os_event test_event = {
         .ev_cb = sender_send_bytes,
         .ev_arg = (void *)&data};
+
+    hal_gpio_init_in(15, HAL_GPIO_PULL_DOWN);
 
     while (1)
     {
@@ -85,7 +88,11 @@ int main(int argc, char **argv)
         hal_gpio_toggle(g_led_pin);
         //console_printf("Hallo Konsole\n");
 
-        os_eventq_put(&sender_event_queue, &test_event);
+        if (hal_gpio_read(15))
+        {
+
+            os_eventq_put(&sender_event_queue, &test_event);
+        }
     }
     assert(0);
 
